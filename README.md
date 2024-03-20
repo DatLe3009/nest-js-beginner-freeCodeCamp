@@ -121,3 +121,64 @@ $ docker ps
 
 $ docker logs [container_id]
 ```
+## 4. Prisma
+### 4.1. Set up
+```bash
+$ yarn add -D prisma
+
+$ yarn add @prisma/client
+```
+### 4.2
+```bash
+$ npx prisma init
+```
+### 4.3: Change `.env` and `schema.prisma`
+`.env`
+```bash
+DATABASE_URL="postgresql://postgres:123@localhost:5434/nest?schema=public"
+```
+### 4.4: Prisma Migrations
+```bash
+$ npx prisma --help
+
+$ npx prisma migrate dev
+
+$ npx prisma generate
+
+$ npx prisma studio
+```
+### 4.5: Prisma Module
+```bash
+$ nest g module prisma
+
+$ nest g service prisma --no-spec
+```
+`prisma.service.ts`
+```bash
+import { Injectable } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
+
+@Injectable()
+export class PrismaService extends PrismaClient{
+    constructor() {
+        super({
+            datasources: {
+                db: {
+                    url: 'postgresql://postgres:123@localhost:5434/nest?schema=public'
+                }
+            }
+        })
+    }
+}
+```
+`prisma.module.ts`
+```bash
+import { Module } from '@nestjs/common';
+import { PrismaService } from './prisma.service';
+
+@Module({
+  providers: [PrismaService],
+  exports: [PrismaService]
+})
+export class PrismaModule {}
+```
