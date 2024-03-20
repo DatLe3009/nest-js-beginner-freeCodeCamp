@@ -183,4 +183,42 @@ import { PrismaService } from './prisma.service';
 export class PrismaModule {}
 ```
 ## 5. Using Auth Dto
+## 6. Pipes
+### 6.1
+```bash
+$ yarn add class-validator class-transformer
+```
+`auth.dto.ts`
+```bash
+import { IsEmail, IsNotEmpty, IsString } from "class-validator"
+
+export class AuthDto {
+    @IsEmail()
+    @IsNotEmpty()
+    email: string;
+
+    @IsString()
+    @IsNotEmpty()
+    password: string;
+}
+```
+### 6.2: NestJs Global Pipe
+`main.ts`
+```bash
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
+  }));
+  await app.listen(3333);
+}
+bootstrap();
+
+```
+
+
 
