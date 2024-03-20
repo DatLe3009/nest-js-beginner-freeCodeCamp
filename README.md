@@ -229,6 +229,7 @@ change `auth.service.ts`
 ```bash
 $ npx prisma migrate dev
 ```
+## 8. Sign in logic
 
 
 
