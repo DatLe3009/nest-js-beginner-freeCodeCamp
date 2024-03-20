@@ -230,6 +230,16 @@ change `auth.service.ts`
 $ npx prisma migrate dev
 ```
 ## 8. Sign in logic
-
+## 9. Automate postgres restart & prisma migrations
+`package.json`
+```bash
+ "scripts": {
+    "prisma:dev:deploy": "prisma migrate deploy",
+    "db:dev:rm": "docker compose rm dev-db -s -f -v",
+    "db:dev:up": "docker compose up dev-db -d",
+    "db:dev:restart": "yarn db:dev:rm & yarn db:dev:up & sleep 1 & yarn prisma:dev:deploy",
+    ...
+  }
+```
 
 
