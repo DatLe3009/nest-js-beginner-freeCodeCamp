@@ -82,3 +82,9 @@ $ nest new project-name
 ```bash
 $ nest g module [name]
 ```
+## 2. Controller, Service
+```bash
+$ nest g controller [name]
+
+$ nest g service [name]
+```
