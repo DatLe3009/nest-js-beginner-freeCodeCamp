@@ -88,3 +88,36 @@ $ nest g controller [name]
 
 $ nest g service [name]
 ```
+## 3. Docker
+### 3.1
+```bash
+$ docker ps
+
+$ docker --version
+```
+### 3.2
+`docker-compose.yml`
+```bash
+version: '3.9'
+services:
+  dev-db:
+    image: postgres:15
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: nest
+    networks:
+      - freecodecamp
+networks:
+  freecodecamp:
+```
+with service have name: dev-db
+```bash
+$ docker compose up dev-db -d
+
+$ docker ps
+
+$ docker logs [container_id]
+```
