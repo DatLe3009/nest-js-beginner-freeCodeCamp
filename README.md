@@ -219,6 +219,16 @@ async function bootstrap() {
 bootstrap();
 
 ```
+## 7. Sign up logic
+### 7.1
+```bash
+$ yarn add argon2
+```
+change `auth.service.ts`
+### 7.2 Update Prisma Migrations
+```bash
+$ npx prisma migrate dev
+```
 
 
 
