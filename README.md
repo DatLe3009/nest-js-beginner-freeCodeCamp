@@ -241,5 +241,9 @@ $ npx prisma migrate dev
     ...
   }
 ```
+## 10. NestJs Config Module
+```bash
+$ yarn add @nestjs/config
+```
 
 
