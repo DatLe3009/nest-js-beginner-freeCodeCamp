@@ -182,3 +182,5 @@ import { PrismaService } from './prisma.service';
 })
 export class PrismaModule {}
 ```
+## 5. Using Auth Dto
+
