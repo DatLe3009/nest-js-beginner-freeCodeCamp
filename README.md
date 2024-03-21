@@ -253,5 +253,6 @@ $ yarn add @nestjs/jwt passport-jwt
 
 $ yarn add -D @types/passport-jwt
 ```
+## 12. Get current user with access token, Guards
 
 
