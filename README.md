@@ -245,5 +245,13 @@ $ npx prisma migrate dev
 ```bash
 $ yarn add @nestjs/config
 ```
+## 11. Using passport js & jwt module with nestJs
+```bash
+$ yarn add @nestjs/passport passport
+
+$ yarn add @nestjs/jwt passport-jwt
+
+$ yarn add -D @types/passport-jwt
+```
 
 
