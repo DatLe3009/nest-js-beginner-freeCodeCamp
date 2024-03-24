@@ -255,4 +255,5 @@ $ yarn add -D @types/passport-jwt
 ```
 ## 12. Get current user with access token, Guards
 
+## 13. Custom param decorator
 
