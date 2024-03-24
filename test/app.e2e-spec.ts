@@ -4,10 +4,12 @@ import * as pactum from 'pactum';
 import { AppModule } from '../src/app.module';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { AuthDto } from '../src/auth/dto';
+import { EditUserDto } from '../src/user/dto';
 
 describe('App e2e', () => {
   let app: INestApplication;
   let prisma: PrismaService;
+
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule],
@@ -26,8 +28,8 @@ describe('App e2e', () => {
     pactum.request.setBaseUrl('http://localhost:3333');
   });
 
-  afterAll(() => {
-    app.close();
+  afterAll(async () => {
+    await app.close();
   });
 
   describe('Auth', () => {
@@ -44,7 +46,7 @@ describe('App e2e', () => {
           ).withBody({
             password: dto.password
           })
-          .expectStatus(400)
+          .expectStatus(400);
       });
       it('should throw if password empty', () => {
         return pactum
@@ -54,13 +56,13 @@ describe('App e2e', () => {
           ).withBody({
             email: dto.email
           })
-          .expectStatus(400)
+          .expectStatus(400);
       });
       it('should throw if no body provided', () => {
         return pactum
           .spec()
           .post('/auth/signup')
-          .expectStatus(400)
+          .expectStatus(400);
       });
       it('should signup', () => {
         return pactum
@@ -68,7 +70,7 @@ describe('App e2e', () => {
           .post(
             '/auth/signup'
           ).withBody(dto)
-          .expectStatus(201)
+          .expectStatus(201);
       });
     });
 
@@ -81,7 +83,7 @@ describe('App e2e', () => {
           ).withBody({
             password: dto.password
           })
-          .expectStatus(400)
+          .expectStatus(400);
       });
       it('should throw if password empty', () => {
         return pactum
@@ -91,13 +93,13 @@ describe('App e2e', () => {
           ).withBody({
             email: dto.email
           })
-          .expectStatus(400)
+          .expectStatus(400);
       });
       it('should throw if no body provided', () => {
         return pactum
           .spec()
           .post('/auth/signin')
-          .expectStatus(400)
+          .expectStatus(400);
       });
       it('should signin', () => {
         return pactum
@@ -106,14 +108,42 @@ describe('App e2e', () => {
             '/auth/signin'
           ).withBody(dto)
           .expectStatus(200)
+          .stores('userAt', 'access_token');
       });
     });
   });
 
   describe('User', () => {
-    describe('Get me', () => {});
+    describe('Get me', () => {
+      it('should get current user', () => {
+        return pactum
+        .spec()
+        .get('/users/me')
+        .withHeaders({
+          Authorization: 'Bearer $S{userAt}',
+        })
+        .expectStatus(200);
+      })
+    });
 
-    describe('Edit User', () => {});
+    describe('Edit User', () => {
+      it('should edit user', () => {
+        const dto: EditUserDto = {
+          firstName: "Vladimir",
+          email: "vlad@codewithvlad.com",
+        };
+        return pactum
+        .spec()
+        .patch('/users')
+        .withHeaders({
+          Authorization: 'Bearer $S{userAt}',
+        })
+        .withBody(dto)
+        .expectStatus(200)
+        .expectBodyContains(dto.firstName)
+        .expectBodyContains(dto.email);
+      })
+    });
   });
 
   describe('Bookmarks', () => {
@@ -129,11 +159,11 @@ describe('App e2e', () => {
       
     });
 
-    describe('Edit Bookmark', () => {
+    describe('Edit Bookmark by id', () => {
       
     });
 
-    describe('Delete Bookmark', () => {
+    describe('Delete Bookmark by id', () => {
       
     });
   });
