@@ -257,3 +257,59 @@ $ yarn add -D @types/passport-jwt
 
 ## 13. Custom param decorator
 
+## 14. E2E TESTS with pactum js, Using dotenv cli with prisma
+### 14.1
+```bash
+$ yarn add -D pactum
+
+$ yarn add -D dotenv-cli
+```
+### 14.2
+`docker-compose.yml`
+```bash
+version: '3.9'
+services:
+  dev-db:
+    image: postgres:15
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: nest
+    networks:
+      - freecodecamp
+  test-db:
+    image: postgres:15
+    ports:
+      - 5435:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: nest
+    networks:
+      - freecodecamp
+networks:
+  freecodecamp:
+```
+### 14.3 Create file 
+`.env.test`
+```bash
+DATABASE_URL="postgresql://postgres:123@localhost:5435/nest?schema=public"
+JWT_SECRET='super-secret'
+```
+### 14.4
+`package.json`
+```bash
+  "scripts": {
+    "test:e2e": "dotenv -e .env.test -- jest --watch --no-cache --config ./test/jest-e2e.json"
+
+    "prisma:test:deploy": "dotenv -e .env.test -- prisma migrate deploy",
+    "db:test:rm": "docker compose rm test-db -s -f -v",
+    "db:test:up": "docker compose up test-db -d",
+    "db:test:restart": "yarn db:test:rm & yarn db:test:up & sleep 1 & yarn prisma:test:deploy",
+    ...
+  }
+```
+
+
