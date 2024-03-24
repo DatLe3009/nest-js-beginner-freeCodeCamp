@@ -311,5 +311,32 @@ JWT_SECRET='super-secret'
     ...
   }
 ```
+## 15. Prisma database teardown logic
+## 15.1
+`prisma.service.ts`
+```bash
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PrismaClient } from '@prisma/client';
 
+@Injectable()
+export class PrismaService extends PrismaClient {
+    constructor(config: ConfigService) {
+        super({
+            datasources: {
+                db: {
+                    url: config.get('DATABASE_URL'),
+                },
+            },
+        });
+    }
+    cleanDB() {
+        return this.$transaction([
+            this.bookmark.deleteMany(),
+            this.user.deleteMany()
+        ]);
+    }
+}
+```
+### 15.2 : Write `app.e2e-spec.ts`
 
