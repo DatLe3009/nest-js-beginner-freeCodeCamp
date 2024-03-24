@@ -312,7 +312,7 @@ JWT_SECRET='super-secret'
   }
 ```
 ## 15. Prisma database teardown logic
-## 15.1
+### 15.1
 `prisma.service.ts`
 ```bash
 import { Injectable } from '@nestjs/common';
@@ -340,3 +340,4 @@ export class PrismaService extends PrismaClient {
 ```
 ### 15.2 : Write `app.e2e-spec.ts`
 
+## 16. Auth e2e tests
