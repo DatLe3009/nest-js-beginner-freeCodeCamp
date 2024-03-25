@@ -343,3 +343,5 @@ export class PrismaService extends PrismaClient {
 ## 16. Auth e2e tests
 
 ## 17. User e2e tests
+
+## 18. Bookmark e2e tests
